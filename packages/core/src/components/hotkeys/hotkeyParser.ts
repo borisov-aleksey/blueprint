@@ -3,6 +3,8 @@
  * Licensed under the Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0
  */
 
+import { isBrowser } from '../../common/utils';
+
 export interface IKeyCodeTable {
     [code: number]: string;
 }
@@ -115,7 +117,9 @@ export const Aliases = {
     "escape": "esc",
     "plus": "+",
     "minus": "-",
-    "mod": /Mac|iPod|iPhone|iPad/.test(navigator.platform) ? "meta" : "ctrl",
+    "mod": (isBrowser() && /Mac|iPod|iPhone|iPad/.test(navigator.platform))
+      ? "meta"
+      : "ctrl",
     "win": "meta",
 } as IKeyMap;
 

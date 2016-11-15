@@ -3,6 +3,18 @@
  * Licensed under the Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0
  */
 
+/** Returns a simple no-op utility. */
+export const noop = (): void => void 0;
+
+/** Returns true if render is occuring in browser. */
+export function isBrowser(): boolean {
+    return Boolean(
+        typeof window !== 'undefined' &&
+        window.document &&
+        window.document.createElement
+    );
+}
+
 /** Returns whether the value is a function. Acts as a type guard. */
 export function isFunction(value: any): value is Function {
     return typeof value === "function";
@@ -65,6 +77,9 @@ export function shallowClone<T>(object: T): T {
  * @see https://developer.mozilla.org/en-US/docs/Web/Events/scroll
  */
 export function throttleEvent(target: EventTarget, eventName: string, newEventName: string) {
+    if (isBrowser()) {
+      return noop;
+    }
     let running = false;
     /* istanbul ignore next: borrowed directly from MDN */
     let func = function(event: Event) {
